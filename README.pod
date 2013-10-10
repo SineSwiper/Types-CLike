@@ -24,7 +24,7 @@ Types::CLike - C-like data types for Moo(se)
     use Sub::Quote;
  
     has 'baz' => (
-       isa => Double  # or Float64, Binary64
+       isa => Double,  # or Float64, Binary64
  
        # A Double number gets pretty big, so make sure we use big numbers
        coerce => quote_sub q{
