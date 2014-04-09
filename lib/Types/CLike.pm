@@ -101,9 +101,9 @@ sub _exporter_expand_tag {
    my $class = shift;
    my ($name, $value, $globals) = @_;
 
+   my $p = '';
    my $base_name = $name;
-   $base_name =~ s/^((?:is|assert|to)_|\+)//g;
-   my $p = $1 || '';
+   $base_name =~ s/^((?:is|assert|to)_|\+)// and $p = $1;
 
    $base_tags{$base_name} and return map [ "$p$_" => $value ], @{ $base_tags{$base_name} };
 
@@ -120,7 +120,7 @@ __END__
 
    package MyPackage;
    use Moo;  # or Moose or Mouse
-   use Types::CLike qw(:all);
+   use Types::CLike qw(:c);
 
    has 'foo' => (
       isa => Int     # or Int32, Signed32
@@ -219,8 +219,10 @@ some Exporter tags available, grouped by language:
    :mysql   = TinyInt SmallInt MediumInt Int BigInt (and Unsigned versions) Float Double
    :ansisql = SmallInt Int Float Real Double
 
-   :is_*    = All of the is_* functions for that tag
-   :*+is    = Both the Moo and is_* functions for that tag
+   :is_*     = All of the is_* functions for that tag
+   :to_*     = Same for to_* functions
+   :assert_* = Same for assert_* functions
+   :+*       = Imports is_*, to_*, assert_*, and types for that tag
 
 = CAVEATS
 
